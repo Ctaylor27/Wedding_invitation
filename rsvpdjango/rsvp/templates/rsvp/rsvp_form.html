@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'rsvp/css/styles.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
+    
+    <div class="frame">
+        <h2>RSVP</h2>
+        <form action="{% url 'rsvp:submit_rsvp' %}" method="post">
+            {% csrf_token %}
+
+                <div class="form_items">
+                    <div class="input">
+                        <label for="name">Your Name</label>
+                        <input required type="text" name="name" id="name">
+                    </div>
+
+                    <!-- <div class="input">
+                        <label for="num_attendees">How many will be joining you?</label>
+                        <input required onkeydown="handleKeyDown(event)" type="number" name="num_attendees" id="num_attendees">
+                    </div> -->
+                    <div class="attendee_container"></div>
+                    <div class="input">
+                        <button type="button" onclick="renderAttendeeInputs()" name="num_attendees" id="num_attendees">Add Guest</button>
+                    </div>
+                    
+                    <input type="hidden" name="num_attendees" id="hidden_num_attendees" value="0">
+                    <button id="submit" type="submit">Submit</button>
+                </div>
+
+        </form>
+    </div>
+
+    <script>
+        let num_attendees = 0
+        function handleKeyDown(event){
+            if (event.key === 'Enter'){
+                renderAttendeeInputs(event.target.value)
+                event.preventDefault()
+            }
+        }
+        function renderAttendeeInputs(){
+            num_attendees++
+            const container = document.querySelector('.attendee_container')
+            document.querySelector("#hidden_num_attendees").value = num_attendees
+            // Create and append a new input
+            let div = document.createElement('div');
+                div.classList.add("attendee_input")
+                div.classList.add("input")
+
+                let input = document.createElement('input');
+                input.type = 'text';  
+                input.name = 'attendee_' + num_attendees;
+                input.placeholder = "Guest's name";
+                input.required = true
+                let button = document.createElement('button');
+                button.type = 'button'
+                button.innerHTML = 'Delete'
+                button.onclick = (e) => div.remove()
+                div.appendChild(input)
+                div.appendChild(button)
+                container.appendChild(div);
+            }
+    </script>
+
+{% endblock content %}
