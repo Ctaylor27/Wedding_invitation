@@ -34,7 +34,7 @@
          let csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
          console.log(csrfToken)
-         let url = `/rsvp/del/${e.target.id}`
+         let url = `del/${e.target.id}`
          let options = {
              method : "DELETE",
              headers: {
@@ -45,7 +45,7 @@
 
          fetch(url, options)
          .then(response => {
-             if (response.ok) window.location.href = "/rsvp";
+             if (response.ok) window.location.href = "";
              else console.error('Error: ', response.statusText)
          })
          .catch(error => {

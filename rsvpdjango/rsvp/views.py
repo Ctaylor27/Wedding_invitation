@@ -24,7 +24,7 @@ def submit_rsvp(request):
         attendees = [request.POST.get(f'attendee_{i}') for i in range(1, int(request.POST.get('num_attendees', 0)) + 1)]
 
         # Create the RSVP based on the name and num_attendees provided
-        rsvp = RSVP(name=request.POST['name'], party_total=request.POST['num_attendees'])
+        rsvp = RSVP(name=request.POST['name'], party_total=request.POST['num_attendees'], email=request.POST['email'])
         rsvp.save()
         # Creat an Attendee for each and attach them to the RSVP
         for attendee in attendees:
